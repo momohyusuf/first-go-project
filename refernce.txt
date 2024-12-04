@@ -1,0 +1,8 @@
+* It is recommended to always generate the GO MOD file before you start any new go project
+* os.Getenv provides a way you to read env variables from a go file
+* for dynamically reading whatever you have in env file, use the
+- JOHO PACkAGE [to use, run go get github.com/joho/godoenv]
+* GO MOD VENDOR allow you download an offline copy of whatever external package you are using in your go application
+    Similar to generating a node_modules folder for offline usage in node application
+
+* CHI PACkAGE is use for creating a server and routes in go
