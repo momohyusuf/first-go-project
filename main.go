@@ -33,6 +33,11 @@ func main() {
 	}))
 	router.Use(middleware.Logger)
 
+	v1Router := chi.NewRouter()
+	v1Router.Get("/health", handleServerReadiness)
+	v1Router.Get("/err", handleErrorREquest)
+	router.Mount("/api/v1", v1Router)
+
 	// create a server
 	server := &http.Server{
 		Handler: router,
