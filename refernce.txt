@@ -6,3 +6,13 @@
     Similar to generating a node_modules folder for offline usage in node application
 
 * CHI PACkAGE is use for creating a server and routes in go
+
+* SQLC is go package that helps us translate our raw sql queries in go code that can be executed
+  Note: for sqlc to successfully convert your sql queries to go code, you must write the sql queries
+        in a file the ends with .sql
+
+* GOOSE is database migration tool [i.e for mostly working with CREATING, UPDATING, DELETING AND ALETERING of table] 
+
+* NOTE before running goose commands you must cd into the folder where the sql migration queries are written,
+* NOTE before using SQLC to generate sql go code to run your queries you have to be at the root directory of your project provided you have created the sqlc.yaml file
+

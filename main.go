@@ -10,12 +10,27 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
+	"github.com/rss/internal/database"
+
+	_ "github.com/lib/pq"
 )
+
+type apiConfig struct {
+	DB *database.Queries
+}
 
 func main() {
 	// To load the env variables in the env file
 	godotenv.Load(".env")
 	PORT := os.Getenv("PORT")
+	DB_URL := os.Getenv("DB_URL")
+
+	// lets establish a connection to our database use builtin go sql library
+	connection := establishDatabaseConnection(DB_URL)
+
+	apiConnection := apiConfig{
+		DB: connection,
+	}
 
 	// initiating an instance of chi router
 	router := chi.NewRouter()
@@ -36,6 +51,8 @@ func main() {
 	v1Router := chi.NewRouter()
 	v1Router.Get("/health", handleServerReadiness)
 	v1Router.Get("/err", handleErrorREquest)
+	v1Router.Post("/register", apiConnection.handleUser)
+
 	router.Mount("/api/v1", v1Router)
 
 	// create a server
