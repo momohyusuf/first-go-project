@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/rss/internal/database"
+	"github.com/rss/utils"
 )
 
 func (dbConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
@@ -29,15 +30,19 @@ func (dbConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
 
 	// create the user in your data base
 	user, err := dbConfig.DB.CreateUser(r.Context(), database.CreateUserParams{
-		ID:        uuid.New(),
-		CreatedAt: time.Now().UTC(),
-		UpdatedAt: time.Now().UTC(),
-		Name:      params.Name,
+		ID:          uuid.New(),
+		CreatedAt:   time.Now().UTC(),
+		UpdatedAt:   time.Now().UTC(),
+		Name:        params.Name,
+		Email:       params.Email,
+		ApiKey:      utils.GenerateApiKey(),
+		PhoneNumber: params.Phone_number,
 	})
 
 	if err != nil {
+		fmt.Println(err)
 		responseWithError(w, 400, fmt.Sprintf("Sorry an error occur %v", err))
 		return
 	}
-	responseWithJson(w, 201, user)
+	responseWithJson(w, 201, updatedUserModelFieldToCustom(user))
 }

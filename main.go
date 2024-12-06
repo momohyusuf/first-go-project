@@ -24,6 +24,7 @@ func main() {
 	godotenv.Load(".env")
 	PORT := os.Getenv("PORT")
 	DB_URL := os.Getenv("DB_URL")
+	fmt.Print(DB_URL)
 
 	// lets establish a connection to our database use builtin go sql library
 	connection := establishDatabaseConnection(DB_URL)
