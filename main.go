@@ -53,7 +53,8 @@ func main() {
 	v1Router.Get("/health", handleServerReadiness)
 	v1Router.Get("/err", handleErrorREquest)
 	v1Router.Post("/register", apiConnection.handleUser)
-
+	v1Router.Get("/auth", apiConnection.middlewareAuth(apiConnection.getUserByApiKey))
+	v1Router.Post("/create-feed", apiConnection.middlewareAuth(apiConnection.handleCreateFeed))
 	router.Mount("/api/v1", v1Router)
 
 	// create a server

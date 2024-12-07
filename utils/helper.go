@@ -4,6 +4,8 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/hex"
+
+	"regexp"
 )
 
 func GenerateApiKey() string {
@@ -21,4 +23,11 @@ func GenerateApiKey() string {
 	apiKey := hex.EncodeToString(hash[:])
 
 	return apiKey
+}
+
+func IsValidEmail(email string) bool {
+	// Regular expression to validate an email address
+	regex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+	re := regexp.MustCompile(regex)
+	return re.MatchString(email)
 }

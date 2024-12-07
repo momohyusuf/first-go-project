@@ -52,3 +52,43 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	)
 	return i, err
 }
+
+const findUserByApiKey = `-- name: FindUserByApiKey :one
+SELECT id, created_at, updated_at, email, name, api_key, phone_number FROM users
+WHERE api_key = $1
+`
+
+func (q *Queries) FindUserByApiKey(ctx context.Context, apiKey string) (User, error) {
+	row := q.db.QueryRowContext(ctx, findUserByApiKey, apiKey)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.Name,
+		&i.ApiKey,
+		&i.PhoneNumber,
+	)
+	return i, err
+}
+
+const findUserByEmail = `-- name: FindUserByEmail :one
+SELECT id, created_at, updated_at, email, name, api_key, phone_number FROM users
+WHERE email = $1
+`
+
+func (q *Queries) FindUserByEmail(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, findUserByEmail, email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Email,
+		&i.Name,
+		&i.ApiKey,
+		&i.PhoneNumber,
+	)
+	return i, err
+}

@@ -17,6 +17,15 @@ type User struct {
 	Api_key     string    `json:"api_key"`
 }
 
+type Feed struct {
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Url       string    `json:"url"`
+	UserID    uuid.UUID `json:"user_id"`
+}
+
 func updatedUserModelFieldToCustom(dbUser database.User) User {
 	user := User{
 		ID:          dbUser.ID,
@@ -28,4 +37,17 @@ func updatedUserModelFieldToCustom(dbUser database.User) User {
 		PhoneNumber: dbUser.PhoneNumber,
 	}
 	return user
+}
+
+func updatedFeedModelFieldToCustom(dbFeed database.Feed) Feed {
+	feed := Feed{
+		ID:        dbFeed.ID,
+		CreatedAt: dbFeed.CreatedAt,
+		UpdatedAt: dbFeed.UpdatedAt,
+		Name:      dbFeed.Name,
+		UserID:    dbFeed.UserID,
+		Url:       dbFeed.Url,
+	}
+
+	return feed
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/rss/internal/database"
+
 	"github.com/rss/utils"
 )
 
@@ -23,9 +24,14 @@ func (dbConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	params := parameters{}
 	err := decoder.Decode(&params)
-	fmt.Print(err)
 	if err != nil {
 		responseWithError(w, 400, fmt.Sprintf("Sorry an error occur Provide the following fields are missing: %v", err))
+	}
+
+	// check if email address is valid
+	if !utils.IsValidEmail(params.Email) {
+		responseWithError(w, 400, fmt.Sprintf("Email address provided is invalid Email: %v", params.Email))
+		return
 	}
 
 	// create the user in your data base
@@ -45,4 +51,10 @@ func (dbConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	responseWithJson(w, 201, updatedUserModelFieldToCustom(user))
+}
+
+// a function for retrieving by apiKey
+func (dbConfig *apiConfig) getUserByApiKey(w http.ResponseWriter, r *http.Request, user database.User) {
+
+	responseWithJson(w, 200, updatedUserModelFieldToCustom(user))
 }

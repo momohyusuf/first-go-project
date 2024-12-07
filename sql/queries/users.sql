@@ -5,3 +5,10 @@ INSERT INTO users (
 VALUES ($1, $2, $3, $4, $5, $6, $7)
 RETURNING *;
 
+-- name: FindUserByEmail :one
+SELECT * FROM users
+WHERE email = $1;
+
+-- name: FindUserByApiKey :one
+SELECT * FROM users
+WHERE api_key = $1;
